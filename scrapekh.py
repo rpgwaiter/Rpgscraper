@@ -8,7 +8,7 @@ import shutil
 import sys
 
 # Argument must end in a slash (for now)
-if sys.argv[1] is not none:
+if sys.argv[1] is not None:
 	rip_root_folder = sys.argv[1]
 else:
 	rip_root_folder = "khrip/"

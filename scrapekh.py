@@ -6,14 +6,6 @@ from multiprocessing import Process
 import time
 import shutil
 
-# Thanks for the weird characters.
-#
-# The following code was for python2, 3 ha
-#
-#import sys
-#reload(sys)
-#sys.setdefaultencoding('utf8')
-
 #################################
 # GLOBALS
 #################################

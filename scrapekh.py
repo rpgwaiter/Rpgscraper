@@ -5,11 +5,17 @@ from colorama import Fore
 from multiprocessing import Process
 import time
 import shutil
+import sys
+
+# Argument must end in a slash (for now)
+if sys.argv[1] is not none:
+	rip_root_folder = sys.argv[1]
+else:
+	rip_root_folder = "khrip/"
 
 #################################
 # GLOBALS
 #################################
-rip_root_folder = "khrip/"
 procs = []
 full_rip = False  # If true, scan every album
 verbose = False
@@ -23,34 +29,34 @@ verbose = False
 # Note that some systems are not included because... I don't really want a bunch of anime music right now.
 array_systems = [
 	'3do',
-	# 'amiga',
-	# 'arcade',
-	# 'atari-8bit',
-	# 'atari-st',
-	# 'cd-i',
-	# 'commodore-64',
-	# 'fm-towns',
-	# 'gameboy',
-	# 'gameboy-advance',
-	# 'ms-dos',
-	# 'msx',
-	# 'msx2',
-	# 'neo-geo',
-	# 'nintendo-64',
-	# 'nintendo-nes',
-	# 'nintendo-snes',
-	# 'pc-8801',
-	# 'pc-9801',
-	# 'pc-fx',
-	# 'playstation',
-	# 'sega-dreamcast',
-	# 'sega-game-gear',
-	# 'sega-master-system',
-	# 'sega-mega-drive-genesis',
-	# 'sharp-x1',
-	# 'spectrum',
-	# 'turbografx-16',
-	# 'virtual-boy',
+	'amiga',
+	'arcade',
+	'atari-8bit',
+	'atari-st',
+	'cd-i',
+	'commodore-64',
+	'fm-towns',
+	'gameboy',
+	'gameboy-advance',
+	'ms-dos',
+	'msx',
+	'msx2',
+	'neo-geo',
+	'nintendo-64',
+	'nintendo-nes',
+	'nintendo-snes',
+	'pc-8801',
+	'pc-9801',
+	'pc-fx',
+	'playstation',
+	'sega-dreamcast',
+	'sega-game-gear',
+	'sega-master-system',
+	'sega-mega-drive-genesis',
+	'sharp-x1',
+	'spectrum',
+	'turbografx-16',
+	'virtual-boy',
 	'x68000'
 ]
 

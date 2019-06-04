@@ -190,7 +190,6 @@ for what_system in array_systems:
 	else:
 		# Loops through the whole set of albums
 		for link_album in set_of_albums:
-			print(link_album)
 			album_name = (link_album[0].split("https://downloads.khinsider.com/game-soundtracks/album/"))[1]
 
 			# Gets album name from current url

@@ -142,7 +142,7 @@ def get_local_albums(system):
 
 ## TODO: only look for .flac and .mp3
 def get_local_songs(path):
-    return sum(1 for file in os.listdir(path) if os.path.isfile(os.path.join(path, file)))
+    return sum(1 for file in os.listdir(path) if os.path.isfile(os.path.join(path, file))) or 0
 
 # use a process pool to quickly grab all songs in an album
 def parallel_album_grab(args):

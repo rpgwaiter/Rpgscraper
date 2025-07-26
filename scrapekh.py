@@ -52,7 +52,7 @@ array_systems = [
     # 'nintendo-nes',
     # 'nintendo-snes',
     # "pc-8801",
-    # "pc-9801",
+    "pc-9801",
     # "pc-fx",
     # 'playstation',
     # 'sega-dreamcast',
@@ -63,7 +63,7 @@ array_systems = [
     # 'spectrum',
     # "turbografx-16",
     # 'virtual-boy',
-    "x68000",
+    # "x68000",
 ]
 
 
@@ -98,38 +98,42 @@ def get_songs(album_link, album_name):
     # Loops through all links, finds links to songs
     for link_album_unf in array_album_unf:
         link2 = link_album_unf.get("href")
-        if str(link2).startswith("/game-soundtracks/album/" + album_name):
+        if str(link2).startswith("/game-soundtracks/album/" + album_name) and "change_log" not in link2:
             the_set.add((f"{base_url}{link2}"))
     return the_set
 
 
 # Takes a link to the song, finds the file and downloads it.
 def download_song(args):
-    song_link, save_dir = args
-    soup_song_page = BeautifulSoup(get_page(song_link), "html.parser")
-    all_links = [x.get("href") for x in soup_song_page.find_all("a")]
+    try:
+        song_link, save_dir = args
+        soup_song_page = BeautifulSoup(get_page(song_link), "html.parser")
+        all_links = [x.get("href") for x in soup_song_page.find_all("a")]
 
-    flac_link = ([x for x in all_links if x and ".flac" in x][:1] or [None])[0]
-    mp3_link = ([x for x in all_links if x and ".mp3" in x][:1] or [None])[0]
-    good_link = flac_link or mp3_link
+        flac_link = ([x for x in all_links if x and ".flac" in x][:1] or [None])[0]
+        mp3_link = ([x for x in all_links if x and ".mp3" in x][:1] or [None])[0]
+        good_link = flac_link or mp3_link
 
-    # This is just the name of the mp3, fixes url encoding like %20
-    mp3_filename = urllib.parse.unquote(good_link.split("/")[-1])
-    mp3_fullpath = f"{save_dir}/{mp3_filename}"
+        # This is just the name of the mp3, fixes url encoding like %20
+        mp3_filename = urllib.parse.unquote(good_link.split("/")[-1])
+        mp3_fullpath = f"{save_dir}/{mp3_filename}"
 
-    # If the mp3 file doesn't exist..
-    if not os.path.isfile(mp3_fullpath) and good_link:
-        try:
-            response = get_page(good_link)
-            # print(f"\n{Fore.CYAN}{Style.DIM}[-] DOWNLOADING: {mp3_fullpath}{Style.NORMAL}", end='')
-            # Actually saves the song
-            data = response.read()
-            with open(mp3_fullpath, "wb") as this_song:
-                this_song.write(data)
-            print(clear_line(), end='')
-        except OSError as e:
-            print(e)
-    return 0
+        # If the mp3 file doesn't exist..
+        if not os.path.isfile(mp3_fullpath) and good_link:
+            try:
+                response = get_page(good_link)
+                # print(f"\n{Fore.CYAN}{Style.DIM}[-] DOWNLOADING: {mp3_fullpath}{Style.NORMAL}", end='')
+                # Actually saves the song
+                data = response.read()
+                with open(mp3_fullpath, "wb") as this_song:
+                    this_song.write(data)
+                print(clear_line(), end='')
+            except OSError as e:
+                print(e)
+        return 0
+    except:
+        print(f"ERROR w/ Song: {args[0]}")
+        return 0
 
 
 # Scans the number of subfolders in a given folder
@@ -179,7 +183,7 @@ def parallel_album_grab(args):
         print("####################################################")
         mp_iter = list(map(lambda x: (x, save_dir), set_of_song_pages))
         # with mp.Pool(processes=mp.cpu_count()) as pool:
-        progress_imapu(download_song, mp_iter, total=len(set_of_song_pages), chunk_size=20)
+        progress_imapu(download_song, mp_iter, total=len(set_of_song_pages), chunk_size=5)
 def scrape_everything():
     print("===================================================")
     print("================ Starting Scrape ==================")
